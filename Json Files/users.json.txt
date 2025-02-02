@@ -1,0 +1,14 @@
+[
+  {
+    "_id": ObjectId("6123456789abcdef01234567"),
+    "userId": "user001",
+    "name": "Alice Brown",
+    "email": "alice@example.com"
+  },
+  {
+    "_id": ObjectId("abcdef012345678901234567"),
+    "userId": "user002",
+    "name": "Bob White",
+    "email": "bob@example.com"
+  }
+]

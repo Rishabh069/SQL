@@ -1,0 +1,47 @@
+CREATE TABLE Inventory (
+    ItemID NUMBER PRIMARY KEY,
+    ProductID NUMBER NOT NULL,
+    UnitPrice NUMBER(10,2),
+    QuantitySold NUMBER,
+    TotalSales NUMBER(10,2),
+    MonthID NUMBER CHECK (MonthID BETWEEN 1 AND 12),
+    YearID NUMBER
+);
+-- Insert sample data
+INSERT INTO Inventory (ItemID, ProductID, UnitPrice, QuantitySold, TotalSales, MonthID, YearID) VALUES
+(10001, 3, 50.5, 20, 1010.0, 1, 2021);
+
+INSERT INTO Inventory (ItemID, ProductID, UnitPrice, QuantitySold, TotalSales, MonthID, YearID) VALUES
+(10002, 4, 75.8, 15, 1137.0, 1, 2021);
+
+INSERT INTO Inventory (ItemID, ProductID, UnitPrice, QuantitySold, TotalSales, MonthID, YearID) VALUES
+(10003, 2, 40.0, 25, 1000.0, 2, 2021);
+
+INSERT INTO Inventory (ItemID, ProductID, UnitPrice, QuantitySold, TotalSales, MonthID, YearID) VALUES
+(10004, 3, 55.0, 30, 1650.0, 3, 2021);
+
+INSERT INTO Inventory (ItemID, ProductID, UnitPrice, QuantitySold, TotalSales, MonthID, YearID) VALUES
+(10005, 5, 65.3, 18, 1175.4, 3, 2022);
+
+INSERT INTO Inventory (ItemID, ProductID, UnitPrice, QuantitySold, TotalSales, MonthID, YearID) VALUES
+(10006, 2, 40.0, 22, 880.0, 4, 2022);
+
+INSERT INTO Inventory (ItemID, ProductID, UnitPrice, QuantitySold, TotalSales, MonthID, YearID) VALUES
+(10007, 4, 75.8, 14, 1061.2, 5, 2022);
+
+INSERT INTO Inventory (ItemID, ProductID, UnitPrice, QuantitySold, TotalSales, MonthID, YearID) VALUES
+(10008, 5, 60.0, 28, 1680.0, 6, 2022);
+COMMIT;
+SELECT * from Inventory;
+
+
+
+
+SELECT 
+    ProductID, 
+    YearID, 
+    MonthID, 
+    SUM(QuantitySold) AS TotalUnitsSold
+FROM Inventory
+GROUP BY ProductID, YearID, MonthID
+ORDER BY ProductID, YearID, MonthID;

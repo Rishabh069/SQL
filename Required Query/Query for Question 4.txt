@@ -1,0 +1,17 @@
+db.products.find(
+    { price: { $lt: 50 } },
+    { _id: 0, title: 1, category: 1, price: 1 }
+)
+db.products.updateOne(
+    { productId: "P003" },
+    { $set: { price: 45 } }
+)
+db.products.insertOne({
+    productId: "P005",
+    title: "Wireless Charger",
+    category: "Electronics",
+    price: 29.99
+})
+db.products.deleteMany(
+    { category: "Fashion" }
+)

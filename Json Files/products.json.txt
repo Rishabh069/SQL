@@ -1,0 +1,30 @@
+[
+  {
+    "_id": ObjectId("0123456789abcdef01234567"),
+    "productId": "P001",
+    "title": "Tablet",
+    "category": "Electronics",
+    "price": 299.99
+  },
+  {
+    "_id": ObjectId("123456789abcdef012345678"),
+    "productId": "P002",
+    "title": "Headset",
+    "category": "Electronics",
+    "price": 89.99
+  },
+  {
+    "_id": ObjectId("23456789abcdef0123456789"),
+    "productId": "P003",
+    "title": "Sneakers",
+    "category": "Fashion",
+    "price": 59.99
+  },
+  {
+    "_id": ObjectId("3456789abcdef01234567890"),
+    "productId": "P004",
+    "title": "Coffee Mug",
+    "category": "Home & Kitchen",
+    "price": 14.99
+  }
+]

@@ -1,0 +1,129 @@
+--This is the Users Table--
+CREATE TABLE Users (
+    userId VARCHAR(20) PRIMARY KEY,
+    name VARCHAR(100),
+    emailAddress VARCHAR(100) UNIQUE
+);
+
+INSERT INTO Users (userId, name, emailAddress) VALUES
+('alice01', 'Alice, A', 'alice@gmail.com');
+INSERT INTO Users (userId, name, emailAddress) VALUES
+('bob17', 'Bob, B', 'bob@hotmail.com');
+INSERT INTO Users (userId, name, emailAddress) VALUES
+('charlie5', 'Charlie, C', 'charlie@yahoo.com');
+INSERT INTO Users (userId, name, emailAddress) VALUES
+('dave19', 'Dave, D', 'dave@gmail.com');
+INSERT INTO Users (userId, name, emailAddress) VALUES
+('eve20', 'Eve, E', 'eve@hotmail.com');
+INSERT INTO Users (userId, name, emailAddress) VALUES
+('frank30', 'Frank, F', 'frank@gmail.com');
+COMMIT;
+
+
+SELECT * from Users;
+
+
+--This is the genre Table--
+CREATE TABLE Genres (
+    genreCode VARCHAR2(10) PRIMARY KEY,
+    title VARCHAR2(50) UNIQUE
+);
+INSERT INTO Genres (genreCode, title) VALUES
+('GN01', 'Fiction');
+INSERT INTO Genres (genreCode, title) VALUES
+('GN02', 'Non-Fiction');
+INSERT INTO Genres (genreCode, title) VALUES
+('GN03', 'Philosophy');
+COMMIT;
+
+SELECT * from Genres;
+
+
+
+--This is the Book Table--
+
+CREATE TABLE books(
+    bookId VARCHAR2(10) PRIMARY KEY,
+    title VARCHAR2(255),
+    genreCode VARCHAR2(10),
+    price NUMBER(5,2)
+);
+
+INSERT INTO books (bookId, title, genreCode, price) VALUES
+('B001', 'The Great Gatsby', 'GN01', 5.99);
+INSERT INTO books (bookId, title, genreCode, price) VALUES
+('B002', 'To Kill a Mockingbird', 'GN01', 6.99);
+INSERT INTO books (bookId, title, genreCode, price) VALUES
+('B003', 'A Brief History of Time', 'GN02', 7.99);
+INSERT INTO books (bookId, title, genreCode, price) VALUES
+('B004', 'The Art of War', 'GN03', 4.99);
+INSERT INTO books (bookId, title, genreCode, price) VALUES
+('B005', 'The Catcher in the Rye', 'GN01', 5.49);
+INSERT INTO books (bookId, title, genreCode, price) VALUES
+('B006', 'Sapiens', 'GN02', 8.49);
+INSERT INTO books (bookId, title, genreCode, price) VALUES
+('B007', '1984', 'GN01', 6.49);
+COMMIT;
+
+
+SELECT * FROM Books;
+
+--Purchase Table--
+
+CREATE TABLE Purchase (
+    userId VARCHAR2(20),
+    bookId VARCHAR2(10),
+    purchaseDate DATE,
+    CONSTRAINT pk_purchase PRIMARY KEY (userId, bookId),
+    CONSTRAINT fk_user FOREIGN KEY (userId) REFERENCES Users (userId) ON DELETE CASCADE,
+    CONSTRAINT fk_book FOREIGN KEY (bookId) REFERENCES Books (bookId) ON DELETE CASCADE
+);
+INSERT INTO Purchase (userId, bookId, purchaseDate) VALUES
+('alice01', 'B002', TO_DATE('05-May-2022', 'DD-Mon-YYYY'));
+INSERT INTO Purchase (userId, bookId, purchaseDate) VALUES
+('dave19', 'B005', TO_DATE('10-May-2023', 'DD-Mon-YYYY'));
+INSERT INTO Purchase (userId, bookId, purchaseDate) VALUES
+('bob17', 'B004', TO_DATE('12-May-2022', 'DD-Mon-YYYY'));
+INSERT INTO Purchase (userId, bookId, purchaseDate) VALUES
+('eve20', 'B001', TO_DATE('15-May-2023', 'DD-Mon-YYYY'));
+INSERT INTO Purchase (userId, bookId, purchaseDate) VALUES
+('frank30', 'B003', TO_DATE('20-Aug-2023', 'DD-Mon-YYYY'));
+INSERT INTO Purchase (userId, bookId, purchaseDate) VALUES
+('alice01', 'B006', TO_DATE('25-Aug-2023', 'DD-Mon-YYYY'));
+INSERT INTO Purchase (userId, bookId, purchaseDate) VALUES
+('charlie5', 'B007', TO_DATE('02-Sep-2023', 'DD-Mon-YYYY'));
+COMMIT;
+
+SELECT * from Purchase;
+
+
+
+SELECT bookId, title, genreCode
+FROM Books
+ORDER BY title;
+
+
+SELECT COUNT(DISTINCT p.userId) AS num_users
+FROM Purchase p
+JOIN Books b ON p.bookId = b.bookId
+JOIN Genres g ON b.genreCode = g.genreCode
+WHERE g.title = 'Fiction';
+
+SELECT g.title AS genre_title, COUNT(p.bookId) AS num_purchases
+FROM Purchase p
+JOIN Books b ON p.bookId = b.bookId
+JOIN Genres g ON b.genreCode = g.genreCode
+GROUP BY g.title
+ORDER BY num_purchases DESC;
+
+
+SELECT g.title AS genre_title
+FROM Purchase p
+JOIN Books b ON p.bookId = b.bookId
+JOIN Genres g ON b.genreCode = g.genreCode
+GROUP BY g.title
+HAVING COUNT(p.bookId) > 1;
+
+
+
+

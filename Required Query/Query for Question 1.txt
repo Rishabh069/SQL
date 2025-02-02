@@ -1,0 +1,99 @@
+-- Create table for Hospitals
+CREATE TABLE Hospitals (
+    hospital_id NUMBER PRIMARY KEY,
+    name VARCHAR2(100) NOT NULL,
+    address VARCHAR2(255) NOT NULL
+);
+
+-- Create table for Departments
+CREATE TABLE Departments (
+    department_id NUMBER PRIMARY KEY,
+    name VARCHAR2(100) NOT NULL,
+    floor_location VARCHAR2(50),
+    hospital_id NUMBER NOT NULL,
+    FOREIGN KEY (hospital_id) REFERENCES Hospitals(hospital_id) ON DELETE CASCADE
+);
+
+-- Create table for Doctors
+CREATE TABLE Doctors (
+    doctor_id NUMBER PRIMARY KEY,
+    name VARCHAR2(100) NOT NULL,
+    specialty VARCHAR2(100),
+    rank VARCHAR2(50)
+);
+
+-- Create a junction table for Doctor-Department-Hospital Relationship
+CREATE TABLE Doctor_Departments (
+    doctor_id NUMBER,
+    department_id NUMBER,
+    hospital_id NUMBER,
+    PRIMARY KEY (doctor_id, department_id, hospital_id),
+    FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id) ON DELETE CASCADE,
+    FOREIGN KEY (department_id) REFERENCES Departments(department_id) ON DELETE CASCADE,
+    FOREIGN KEY (hospital_id) REFERENCES Hospitals(hospital_id) ON DELETE CASCADE
+);
+
+-- Create table for Patients
+CREATE TABLE Patients (
+    patient_id NUMBER PRIMARY KEY,
+    name VARCHAR2(100) NOT NULL,
+    date_of_birth DATE NOT NULL,
+    hospital_id NUMBER NOT NULL,
+    FOREIGN KEY (hospital_id) REFERENCES Hospitals(hospital_id) ON DELETE CASCADE
+);
+
+-- Create table for Medical Records
+CREATE TABLE Medical_Records (
+    record_id NUMBER PRIMARY KEY,
+    patient_id NUMBER NOT NULL,
+    diagnosis VARCHAR2(255),
+    treatment VARCHAR2(255),
+    medications VARCHAR2(255),
+    appointment_date DATE,
+    FOREIGN KEY (patient_id) REFERENCES Patients(patient_id) ON DELETE CASCADE
+);
+
+-- Create table for Nurses
+CREATE TABLE Nurses (
+    nurse_id NUMBER PRIMARY KEY,
+    name VARCHAR2(100) NOT NULL,
+    shift_schedule VARCHAR2(50)
+);
+
+-- Create table for Nurse-Department Relationship
+CREATE TABLE Nurse_Departments (
+    nurse_id NUMBER,
+    department_id NUMBER,
+    hospital_id NUMBER,
+    PRIMARY KEY (nurse_id, department_id, hospital_id),
+    FOREIGN KEY (nurse_id) REFERENCES Nurses(nurse_id) ON DELETE CASCADE,
+    FOREIGN KEY (department_id) REFERENCES Departments(department_id) ON DELETE CASCADE,
+    FOREIGN KEY (hospital_id) REFERENCES Hospitals(hospital_id) ON DELETE CASCADE
+);
+
+-- Create table for Staff
+CREATE TABLE Staff (
+    staff_id NUMBER PRIMARY KEY,
+    name VARCHAR2(100) NOT NULL,
+    job_title VARCHAR2(100)
+);
+
+-- Create table for Staff-Hospital Relationship
+CREATE TABLE Staff_Hospitals (
+    staff_id NUMBER,
+    hospital_id NUMBER,
+    department_id NUMBER,
+    PRIMARY KEY (staff_id, hospital_id, department_id),
+    FOREIGN KEY (staff_id) REFERENCES Staff(staff_id) ON DELETE CASCADE,
+    FOREIGN KEY (hospital_id) REFERENCES Hospitals(hospital_id) ON DELETE CASCADE,
+    FOREIGN KEY (department_id) REFERENCES Departments(department_id) ON DELETE CASCADE
+);
+
+-- Create table for Doctor-Patient Relationship
+CREATE TABLE Doctor_Patients (
+    doctor_id NUMBER,
+    patient_id NUMBER,
+    PRIMARY KEY (doctor_id, patient_id),
+    FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id) ON DELETE CASCADE,
+    FOREIGN KEY (patient_id) REFERENCES Patients(patient_id) ON DELETE CASCADE
+);
